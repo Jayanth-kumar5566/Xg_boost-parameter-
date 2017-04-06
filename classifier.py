@@ -25,7 +25,7 @@ dtest = xgb.DMatrix(test_data,label=test_label)
 
 
 #0 in max_delta_step signifies there is no constraint
-param = [('max_depth', 6), ('objective', 'binary:logistic'), ('eval_metric', 'logloss'), ('eval_metric', 'error'),('eval_metric','auc'),('missing',0),('eta',0.3),('min_child_weight',1),('gamma',0),('max_delta_step',0),('subsample',1),('colsample_bytree',1),('colsample_bylevel',1),('lambda',1),('alpha',0),('scale_pos_weight',1),('seed',0)]
+param = [('max_depth', 2), ('objective', 'binary:logistic'), ('eval_metric', 'error'), ('eval_metric', 'logloss'),('eval_metric','auc'),('missing',0),('eta',0.3),('min_child_weight',1),('gamma',0),('max_delta_step',0),('subsample',1),('colsample_bytree',1),('colsample_bylevel',1),('lambda',1),('alpha',0),('scale_pos_weight',1),('seed',0)]
  
 # specify validations set to watch performance
 watchlist  = [(dtest,'eval'), (dtrain,'train')]
@@ -63,13 +63,18 @@ for i in results['train']['error']:
     time.sleep(0.2)'''
 
 pylab.plot(range(len(results['train']['error'])),results['train']['error'])
+pylab.xlabel("Number of Iterations")
+pylab.ylabel("Training error")
 pylab.show()
 
 pylab.plot(range(len(results['train']['auc'])),results['train']['auc'])
+pylab.xlabel("False Positive rate")
+pylab.ylabel("True Positive rate")
 pylab.show()
 
 #---------------Feature Importance--------------------------
-
+xgb.plot_importance(bst)
+pylab.show()
 
 #----------Possible error metrics--------------------------
 '''It is possible to evaluvate on the following metrics
@@ -78,4 +83,4 @@ mae- mean absolute error
 logloss- negative log likelihood
 merror- multiclass classification error rate
 mlogloss- multiclass logloss
-auc- area under the curve
+auc- area under the curve'''
