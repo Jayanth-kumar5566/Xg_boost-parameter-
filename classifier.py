@@ -20,11 +20,12 @@ test_label=test[:,-1]
 dtrain = xgb.DMatrix(train_data,label=train_label)
 dtest = xgb.DMatrix(test_data,label=test_label)
 
-# specify parameters via map, definition are same as c++ version
+# specify parameters via map, definition are same as c++ version (defaults below)
+#param = [('max_depth', 6), ('objective', 'binary:logistic'), ('eval_metric', 'logloss'), ('eval_metric', 'error'),('eval_metric','auc'),('missing',0),('eta',0.3),('min_child_weight',1),('gamma',0),('max_delta_step',0),('subsample',1),('colsample_bytree',1),('colsample_bylevel',1),('lambda',1),('alpha',0),('scale_pos_weight',1),('seed',0)]
 
-#param = {'max_depth':2, 'eta':1, 'silent':1, 'objective':'binary:logistic','eval_metric':'logloss','eval_metric':'error' }
 
-param = [('max_depth', 2), ('objective', 'binary:logistic'), ('eval_metric', 'logloss'), ('eval_metric', 'error'),('eval_metric','auc'),('missing',0)]
+#0 in max_delta_step signifies there is no constraint
+param = [('max_depth', 6), ('objective', 'binary:logistic'), ('eval_metric', 'logloss'), ('eval_metric', 'error'),('eval_metric','auc'),('missing',0),('eta',0.3),('min_child_weight',1),('gamma',0),('max_delta_step',0),('subsample',1),('colsample_bytree',1),('colsample_bylevel',1),('lambda',1),('alpha',0),('scale_pos_weight',1),('seed',0)]
  
 # specify validations set to watch performance
 watchlist  = [(dtest,'eval'), (dtrain,'train')]
@@ -70,3 +71,11 @@ pylab.show()
 #---------------Feature Importance--------------------------
 
 
+#----------Possible error metrics--------------------------
+'''It is possible to evaluvate on the following metrics
+rmse- root mean squared error
+mae- mean absolute error
+logloss- negative log likelihood
+merror- multiclass classification error rate
+mlogloss- multiclass logloss
+auc- area under the curve
