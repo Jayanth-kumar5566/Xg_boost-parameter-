@@ -30,7 +30,7 @@ param = [('max_depth', 2), ('objective', 'binary:logistic'), ('eval_metric', 'er
 # specify validations set to watch performance
 watchlist  = [(dtest,'eval'), (dtrain,'train')]
 results=dict()
-num_round = 50
+num_round = 500
 bst = xgb.train(param, dtrain, num_round, watchlist,evals_result=results)
 
 # this is prediction
